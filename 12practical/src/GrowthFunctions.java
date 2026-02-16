@@ -15,7 +15,7 @@ public class GrowthFunctions {
                 }
             }
         }
-        return maxsofar;    
+        return maxsofar;
     }
 
     public static int mcsOn2A(int [] X) {
@@ -63,6 +63,26 @@ public class GrowthFunctions {
         return maxsofar;
     }
 
+    public static long mcsOn3WithCount(int [] X) {
+        int n = X.length;
+        int maxsofar = 0;
+        long count = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+                int sum = 0;
+                for (int k = i; k <= j; k++) {
+                    sum += X[k];
+                    count++;
+                }
+                if (sum > maxsofar) {
+                    maxsofar = sum;
+                }
+            }
+        }
+        System.out.println("Count: " + count);
+        return maxsofar;
+    }
+
     public static void main(String[] args) {
         int n = 20;
         int [] X = new int[n];
@@ -70,11 +90,12 @@ public class GrowthFunctions {
         Random rand = new Random();
 
         for (int i = 0; i < n; i++) {
-            X[i] = rand.nextInt(1, n) * (-1) ^ rand.nextInt(2,4);
+            int sign = (rand.nextInt(2, 4) % 2 == 0) ? -1 : 1;
+            X[i] = rand.nextInt(1,n + 1) * sign;
         }
         
-        int countP = 0; 
-        int countM = 0; 
+        int countP = 0;
+        int countM = 0;
         
         for (int i = 0; i < n; i++) {
             if (X[i] > 0) {
@@ -83,7 +104,24 @@ public class GrowthFunctions {
                 countM++;
             }
         }
-        System.out.println("Positive numbers: " + countP);
-        System.out.println("Negative numbers: " + countM);
+
+        public static void main(String[] args) {
+        System.out.println("n        O(n³)        O(n²)A       O(n²)B       O(n)");
+    System.out.println("-------------------------------------------------------");
+    
+    int[] sizes = {100, 1000, 10000, 100000, 1000000};
+    
+    for (int n : sizes) {
+        int[] X = generateArray(n);
+        
+        System.out.print(n + "     ");
+        System.out.print(mcsOn3WithCount(X) + "     ");
+        System.out.print(mcsOn2AWithCount(X) + "     ");
+        System.out.print(mcsOn2BWithCount(X) + "     ");
+        System.out.println(mcsOnWithCount(X));
     }
+}
+
+    }
+    
 }
